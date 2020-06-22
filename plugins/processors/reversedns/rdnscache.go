@@ -216,7 +216,7 @@ func (d *ReverseDNSCache) doLookup(l dnslookup) {
 
 	names, err := net.DefaultResolver.LookupAddr(ctx, l.ip)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "RDNS error: %s\n", err)
+		debug("RDNS error", err)
 		d.abandonLookup(l)
 		return
 	}
@@ -239,7 +239,7 @@ func (d *ReverseDNSCache) doLookup(l dnslookup) {
 
 	d.expireListLock.Lock()
 	// add it to the expireList.
-	// fmt.Println("added to expire list!")
+	debug("added to expire list!")
 	d.expireList = append(d.expireList, lookup)
 	d.expireListLock.Unlock()
 
